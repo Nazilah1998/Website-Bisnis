@@ -20,6 +20,7 @@ export default async function Services() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {allServices.map((s) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const IconComponent = (LucideIcons as any)[s.iconName] || LucideIcons.CheckCircle;
             const title = locale === 'id' ? s.titleId : s.titleEn;
             const description = locale === 'id' ? s.descId : s.descEn;
