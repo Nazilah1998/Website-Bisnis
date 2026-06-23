@@ -8,7 +8,7 @@ export default async function DashboardPage() {
   const allLeads = await db.select().from(leads).orderBy(desc(leads.createdAt));
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Ringkasan Prospek Masuk</h1>
       </div>

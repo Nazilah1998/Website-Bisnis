@@ -27,7 +27,7 @@ export default async function Testimonials() {
             const content = locale === 'id' ? item.contentId : item.contentEn;
             
             return (
-              <SpotlightCard key={item.id} className="p-8 h-full flex flex-col">
+              <SpotlightCard key={item.id} className="p-6 md:p-8 h-full flex flex-col">
                 <Quote className="w-10 h-10 text-blue-500/20 mb-4" />
                 <p className="flex-1 text-foreground/90 italic leading-relaxed mb-8">&quot;{content}&quot;</p>
                 <div className="flex items-center gap-4 mt-auto">

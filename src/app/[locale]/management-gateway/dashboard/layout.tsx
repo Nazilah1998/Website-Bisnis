@@ -2,7 +2,8 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Link } from '@/i18n/routing';
 import { Button } from '@/components/ui/button';
-import { LayoutDashboard, Settings, Image as ImageIcon, CreditCard, HelpCircle, Star, BarChart3, LogOut } from 'lucide-react';
+import { LayoutDashboard, Settings, Image as ImageIcon, CreditCard, HelpCircle, Star, BarChart3, LogOut, Menu } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription, SheetClose } from '@/components/ui/sheet';
 
 export default async function DashboardLayout({
   children,
@@ -39,9 +40,51 @@ export default async function DashboardLayout({
   ];
 
   return (
-    <div className="flex h-screen bg-background">
-      {/* Sidebar */}
-      <aside className="w-64 border-r bg-card flex flex-col h-full">
+    <div className="flex h-screen bg-background flex-col md:flex-row">
+      {/* Mobile Top Bar */}
+      <div className="md:hidden flex items-center justify-between p-4 border-b bg-card">
+        <h2 className="text-xl font-bold tracking-tight">Admin CMS</h2>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="icon">
+              <Menu className="h-6 w-6" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="w-64 p-0">
+            <SheetTitle className="sr-only">Admin Menu</SheetTitle>
+            <SheetDescription className="sr-only">Navigasi Admin CMS</SheetDescription>
+            <div className="flex flex-col h-full">
+              <div className="p-6 border-b">
+                <h2 className="text-xl font-bold tracking-tight">Admin CMS</h2>
+                <p className="text-sm text-muted-foreground">Kelola website Anda</p>
+              </div>
+              <nav className="flex-1 overflow-y-auto p-4 space-y-2">
+                {navItems.map((item) => (
+                  <SheetClose asChild key={item.href}>
+                    <Link href={item.href}>
+                      <div className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent text-sm font-medium transition-colors">
+                        <item.icon className="w-4 h-4" />
+                        {item.name}
+                      </div>
+                    </Link>
+                  </SheetClose>
+                ))}
+              </nav>
+              <div className="p-4 border-t">
+                <form action={logoutAction}>
+                  <Button variant="ghost" type="submit" className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-500/10">
+                    <LogOut className="w-4 h-4 mr-3" />
+                    Logout
+                  </Button>
+                </form>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex w-64 border-r bg-card flex-col h-full">
         <div className="p-6 border-b">
           <h2 className="text-xl font-bold tracking-tight">Admin CMS</h2>
           <p className="text-sm text-muted-foreground">Kelola website Anda</p>
@@ -67,7 +110,7 @@ export default async function DashboardLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto p-0 md:p-4">
         {children}
       </main>
     </div>

@@ -44,17 +44,17 @@ export default async function HomePage({
             <span className="flex h-2 w-2 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
             Elevate Your Digital Presence
           </div>
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto">
             <ShinyText text={t('title')} />
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-[800px] mb-10 leading-relaxed mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-[800px] mb-10 leading-relaxed mx-auto">
             {t('subtitle')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="#booking" className={buttonVariants({ size: "lg", className: "text-lg px-8 h-14 bg-white text-black hover:bg-gray-200" })}>
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
+            <Link href="#booking" className={buttonVariants({ size: "lg", className: "w-full sm:w-auto text-lg px-8 h-14 bg-white text-black hover:bg-gray-200" })}>
               {t('cta_booking')}
             </Link>
-            <Link href="#portfolio" className={buttonVariants({ variant: "outline", size: "lg", className: "text-lg px-8 h-14 border-white/20 hover:bg-white/10" })}>
+            <Link href="#portfolio" className={buttonVariants({ variant: "outline", size: "lg", className: "w-full sm:w-auto text-lg px-8 h-14 border-white/20 hover:bg-white/10" })}>
               {t('cta_portfolio')}
             </Link>
           </div>

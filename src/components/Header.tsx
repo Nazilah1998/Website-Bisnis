@@ -2,6 +2,9 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { MagnetButton } from "./ui/MagnetButton";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "./ui/sheet";
+import { Button } from "./ui/button";
 
 export default function Header() {
   const t = useTranslations("Navigation");
@@ -34,7 +37,7 @@ export default function Header() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <LanguageSwitcher />
           <MagnetButton className="hidden md:inline-block">
             <Link
@@ -44,6 +47,47 @@ export default function Header() {
               Hubungi Kami
             </Link>
           </MagnetButton>
+          
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] bg-background/95 backdrop-blur-md">
+              <SheetTitle className="sr-only">Menu Navigasi</SheetTitle>
+              <SheetDescription className="sr-only">Menu navigasi utama untuk website NazilahWeb</SheetDescription>
+              <div className="flex flex-col gap-6 mt-10">
+                <Link
+                  href="#services"
+                  className="text-lg font-medium hover:text-white/80 transition-colors"
+                >
+                  {t("services")}
+                </Link>
+                <Link
+                  href="#portfolio"
+                  className="text-lg font-medium hover:text-white/80 transition-colors"
+                >
+                  {t("portfolio")}
+                </Link>
+                <Link
+                  href="#pricing"
+                  className="text-lg font-medium hover:text-white/80 transition-colors"
+                >
+                  {t("pricing")}
+                </Link>
+                <div className="mt-4 pt-4 border-t border-white/10">
+                  <Link
+                    href="#booking"
+                    className="flex w-full justify-center bg-white text-black px-5 py-3 rounded-lg text-sm font-semibold hover:bg-gray-200 transition-colors shadow-lg shadow-white/10"
+                  >
+                    Hubungi Kami
+                  </Link>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

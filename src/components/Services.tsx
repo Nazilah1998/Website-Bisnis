@@ -25,7 +25,7 @@ export default async function Services() {
             const description = locale === 'id' ? s.descId : s.descEn;
 
             return (
-              <SpotlightCard key={s.id} className="p-8 h-full text-center hover:-translate-y-2 transition-transform duration-300">
+              <SpotlightCard key={s.id} className="p-6 md:p-8 h-full text-center hover:-translate-y-2 transition-transform duration-300">
                 <div className="flex flex-col items-center">
                   <div className="p-4 bg-white/5 rounded-full mb-6 ring-1 ring-white/10 shadow-inner">
                     <IconComponent className="w-10 h-10 text-blue-500" />

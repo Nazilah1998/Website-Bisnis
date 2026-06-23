@@ -30,7 +30,7 @@ export default async function StatsAdminPage() {
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-8">
       <div>
         <h1 className="text-3xl font-bold">Kelola Statistik</h1>
       </div>

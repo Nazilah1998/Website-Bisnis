@@ -49,7 +49,7 @@ export default async function ServicesAdminPage() {
   }
 
   return (
-    <div className="p-8 max-w-7xl mx-auto space-y-8">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-8">
       <div>
         <h1 className="text-3xl font-bold">Kelola Layanan</h1>
         <p className="text-muted-foreground">Tambahkan atau edit layanan yang ditawarkan agensi Anda.</p>

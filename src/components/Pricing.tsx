@@ -29,7 +29,7 @@ export default async function Pricing() {
             }
 
             return (
-              <SpotlightCard key={p.id} className={`relative flex flex-col p-8 ${p.isPopular ? 'md:-translate-y-4 ring-1 ring-blue-500/50 shadow-2xl shadow-blue-500/20' : ''}`}>
+              <SpotlightCard key={p.id} className={`relative flex flex-col p-6 md:p-8 ${p.isPopular ? 'md:-translate-y-4 ring-1 ring-blue-500/50 shadow-2xl shadow-blue-500/20' : ''}`}>
                 {p.isPopular && (
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                     <Badge className="px-4 py-1.5 text-sm bg-blue-500 hover:bg-blue-600 rounded-full">{t('popular')}</Badge>
