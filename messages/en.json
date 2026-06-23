@@ -1,0 +1,44 @@
+{
+  "HomePage": {
+    "title": "Professional Website Development Agency",
+    "subtitle": "We build premium digital representation for your business.",
+    "cta_booking": "Consult Now",
+    "cta_portfolio": "View Portfolio"
+  },
+  "Navigation": {
+    "home": "Home",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "pricing": "Pricing"
+  },
+  "Services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive digital solutions tailored specifically to meet your business needs.",
+    "items": {
+      "company_profile": {
+        "title": "Company Profile",
+        "description": "Enhance your business credibility with a professional and responsive company profile website."
+      },
+      "ecommerce": {
+        "title": "E-Commerce",
+        "description": "Build your own online store with complete features to maximize sales."
+      },
+      "landing_page": {
+        "title": "Promotional Landing Page",
+        "description": "A single page optimized for conversion of your marketing campaigns."
+      }
+    }
+  },
+  "Portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Some of the best works we have delivered for our clients."
+  },
+  "Pricing": {
+    "title": "Pricing Plans",
+    "subtitle": "Choose a plan that fits the scale and needs of your business.",
+    "custom_quote": "Need custom features? Contact us for a custom quote.",
+    "popular": "Most Popular",
+    "per_project": "/project",
+    "contact_us": "Contact Us"
+  }
+}

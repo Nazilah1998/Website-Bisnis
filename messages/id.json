@@ -1,0 +1,44 @@
+{
+  "HomePage": {
+    "title": "Jasa Pembuatan Website dan Aplikasi Profesional",
+    "subtitle": "Kami membangun representasi digital premium untuk bisnis Anda.",
+    "cta_booking": "Konsultasi Sekarang",
+    "cta_portfolio": "Lihat Portofolio"
+  },
+  "Navigation": {
+    "home": "Beranda",
+    "services": "Layanan",
+    "portfolio": "Portofolio",
+    "pricing": "Harga"
+  },
+  "Services": {
+    "title": "Layanan Kami",
+    "subtitle": "Solusi digital komprehensif yang dirancang khusus untuk memenuhi kebutuhan bisnis Anda.",
+    "items": {
+      "company_profile": {
+        "title": "Company Profile",
+        "description": "Tingkatkan kredibilitas bisnis Anda dengan website company profile yang profesional dan responsif."
+      },
+      "ecommerce": {
+        "title": "E-Commerce",
+        "description": "Bangun toko online Anda sendiri dengan fitur lengkap untuk memaksimalkan penjualan."
+      },
+      "landing_page": {
+        "title": "Landing Page Promosi",
+        "description": "Halaman tunggal yang dioptimasi untuk konversi kampanye marketing Anda."
+      }
+    }
+  },
+  "Portfolio": {
+    "title": "Portofolio",
+    "subtitle": "Beberapa karya terbaik yang telah kami kerjakan untuk klien kami."
+  },
+  "Pricing": {
+    "title": "Paket Harga",
+    "subtitle": "Pilih paket yang sesuai dengan skala dan kebutuhan bisnis Anda.",
+    "custom_quote": "Butuh fitur khusus? Hubungi kami untuk penawaran kustom.",
+    "popular": "Paling Populer",
+    "per_project": "/proyek",
+    "contact_us": "Hubungi Kami"
+  }
+}
