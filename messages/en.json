@@ -42,5 +42,9 @@
     "popular": "Most Popular",
     "per_project": "/project",
     "contact_us": "Contact Us"
+  },
+  "About": {
+    "metaTitle": "About Us",
+    "metaDesc": "Get to know ZilyaDigital — a digital agency dedicated to helping businesses grow in the digital era."
   }
 }
