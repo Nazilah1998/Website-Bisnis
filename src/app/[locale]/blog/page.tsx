@@ -6,6 +6,9 @@ import { Link } from '@/i18n/routing';
 import { Calendar, Tag, ArrowRight } from 'lucide-react';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
+
 export const metadata: Metadata = {
   title: 'Blog & Artikel – ZilyaDigital',
   description: 'Tips, tutorial, dan insight seputar pembuatan website, desain, dan pengembangan bisnis digital.',
