@@ -7,8 +7,6 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 
-import { MagnetButton } from './ui/MagnetButton';
-
 export default function BookingForm() {
   const [loading, setLoading] = useState(false);
 
@@ -79,11 +77,9 @@ export default function BookingForm() {
               <Textarea id="requirements" name="requirements" required rows={4} placeholder="Jelaskan fitur atau jenis website yang Anda inginkan..." className="bg-black/20 border-white/10" />
             </div>
             <div className="pt-4">
-              <MagnetButton className="w-full block">
-                <Button type="submit" className="w-full h-14 text-lg bg-blue-600 hover:bg-blue-700 text-white rounded-xl" disabled={loading}>
-                  {loading ? 'Mengirim...' : 'Kirim & Lanjut ke WhatsApp'}
-                </Button>
-              </MagnetButton>
+              <Button type="submit" className="w-full h-14 text-lg bg-blue-600 hover:bg-blue-700 text-white rounded-xl" disabled={loading}>
+                {loading ? 'Mengirim...' : 'Kirim & Lanjut ke WhatsApp'}
+              </Button>
             </div>
           </form>
         </div>

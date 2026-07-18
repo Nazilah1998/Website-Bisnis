@@ -22,25 +22,49 @@ export default async function Testimonials() {
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">{locale === 'id' ? 'Pengalaman nyata dari mereka yang telah mempercayakan proyek digitalnya kepada kami.' : 'Real experiences from those who have trusted us with their digital projects.'}</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allTestimonials.map((item) => {
-            const content = locale === 'id' ? item.contentId : item.contentEn;
-            
-            return (
-              <SpotlightCard key={item.id} className="p-6 md:p-8 h-full flex flex-col">
-                <Quote className="w-10 h-10 text-blue-500/20 mb-4" />
-                <p className="flex-1 text-foreground/90 italic leading-relaxed mb-8">&quot;{content}&quot;</p>
-                <div className="flex items-center gap-4 mt-auto">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={item.avatarUrl} alt={item.clientName} className="w-12 h-12 rounded-full object-cover ring-2 ring-white/10" />
-                  <div>
-                    <h4 className="font-bold">{item.clientName}</h4>
-                    <p className="text-sm text-muted-foreground">{item.role}</p>
-                  </div>
+        <div className="flex overflow-hidden w-full relative group [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+          <div className="flex min-w-full shrink-0 animate-marquee gap-6 py-4">
+            {allTestimonials.map((item) => {
+              const content = locale === 'id' ? item.contentId : item.contentEn;
+              return (
+                <div key={item.id} className="w-[350px] md:w-[400px] shrink-0">
+                  <SpotlightCard className="p-6 md:p-8 h-full flex flex-col">
+                    <Quote className="w-10 h-10 text-blue-500/20 mb-4" />
+                    <p className="flex-1 text-foreground/90 italic leading-relaxed mb-8">&quot;{content}&quot;</p>
+                    <div className="flex items-center gap-4 mt-auto">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.avatarUrl} alt={item.clientName} className="w-12 h-12 rounded-full object-cover ring-2 ring-white/10" />
+                      <div>
+                        <h4 className="font-bold">{item.clientName}</h4>
+                        <p className="text-sm text-muted-foreground">{item.role}</p>
+                      </div>
+                    </div>
+                  </SpotlightCard>
                 </div>
-              </SpotlightCard>
-            );
-          })}
+              );
+            })}
+          </div>
+          <div className="flex min-w-full shrink-0 animate-marquee gap-6 py-4" aria-hidden="true">
+            {allTestimonials.map((item) => {
+              const content = locale === 'id' ? item.contentId : item.contentEn;
+              return (
+                <div key={`${item.id}-dup`} className="w-[350px] md:w-[400px] shrink-0">
+                  <SpotlightCard className="p-6 md:p-8 h-full flex flex-col">
+                    <Quote className="w-10 h-10 text-blue-500/20 mb-4" />
+                    <p className="flex-1 text-foreground/90 italic leading-relaxed mb-8">&quot;{content}&quot;</p>
+                    <div className="flex items-center gap-4 mt-auto">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={item.avatarUrl} alt={item.clientName} className="w-12 h-12 rounded-full object-cover ring-2 ring-white/10" />
+                      <div>
+                        <h4 className="font-bold">{item.clientName}</h4>
+                        <p className="text-sm text-muted-foreground">{item.role}</p>
+                      </div>
+                    </div>
+                  </SpotlightCard>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

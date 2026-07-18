@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
 import { leads } from '@/db/schema';
+import { sendLeadNotification } from '@/lib/email';
 
 export async function POST(req: Request) {
   try {
@@ -17,6 +18,15 @@ export async function POST(req: Request) {
       estimatedBudget: body.estimatedBudget,
       status: 'New',
       createdAt: new Date(),
+    });
+
+    // Send email notification in background
+    sendLeadNotification({
+      name: body.clientName,
+      email: body.email || '-',
+      phone: body.whatsappNumber,
+      service: 'Web Development / Lead Form',
+      message: body.requirements
     });
 
     return NextResponse.json({ success: true, id });

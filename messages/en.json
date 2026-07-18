@@ -9,7 +9,9 @@
     "home": "Home",
     "services": "Services",
     "portfolio": "Portfolio",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "testimonials": "Testimonials",
+    "faqs": "FAQ"
   },
   "Services": {
     "title": "Our Services",

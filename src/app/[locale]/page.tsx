@@ -6,12 +6,12 @@ import Portfolio from '@/components/Portfolio';
 import Pricing from '@/components/Pricing';
 import BookingForm from '@/components/BookingForm';
 import ClientLogos from '@/components/ClientLogos';
-import Stats from '@/components/Stats';
 import Testimonials from '@/components/Testimonials';
 import Faqs from '@/components/Faqs';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 import FloatingLines from '@/components/ui/FloatingLines';
 import { ShinyText } from '@/components/ui/ShinyText';
+import BlogPreview from '@/components/BlogPreview';
 
 export default async function HomePage({
   params
@@ -62,11 +62,11 @@ export default async function HomePage({
       </section>
       <ClientLogos />
       <Services />
-      <Stats />
       <Portfolio />
       <Testimonials />
       <Pricing />
       <Faqs />
+      <BlogPreview />
       <BookingForm />
       <FloatingWhatsApp />
     </>

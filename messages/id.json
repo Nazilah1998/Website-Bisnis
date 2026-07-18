@@ -9,7 +9,9 @@
     "home": "Beranda",
     "services": "Layanan",
     "portfolio": "Portofolio",
-    "pricing": "Harga"
+    "pricing": "Harga",
+    "testimonials": "Testimoni",
+    "faqs": "FAQ"
   },
   "Services": {
     "title": "Layanan Kami",
