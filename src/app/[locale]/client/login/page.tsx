@@ -1,5 +1,8 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
+
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import Image from 'next/image';

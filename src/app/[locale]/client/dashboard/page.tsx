@@ -1,5 +1,8 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
+
 import { db } from '@/db';
 import { clients, projects, projectAssets, invoices, tickets } from '@/db/schema';
 import { eq } from 'drizzle-orm';

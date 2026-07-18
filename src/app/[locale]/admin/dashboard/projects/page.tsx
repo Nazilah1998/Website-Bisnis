@@ -1,3 +1,5 @@
+﻿export const dynamic = 'force-dynamic';
+
 import { db } from '@/db';
 import { projects, clients, projectAssets } from '@/db/schema';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';

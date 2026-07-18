@@ -2,6 +2,10 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { AdminSidebar } from './AdminSidebar';
 
+// Paksa semua halaman admin selalu dynamic (tidak di-render saat build)
+// Karena admin membutuhkan cookie auth dan data real-time dari database
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardLayout({
   children,
   params

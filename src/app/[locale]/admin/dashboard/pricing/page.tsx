@@ -1,3 +1,5 @@
+﻿export const dynamic = 'force-dynamic';
+
 import { db } from '@/db';
 import { pricingPlans } from '@/db/schema';
 import { asc } from 'drizzle-orm';
