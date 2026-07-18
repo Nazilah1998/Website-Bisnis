@@ -13,6 +13,8 @@ import FloatingLines from '@/components/ui/FloatingLines';
 import { ShinyText } from '@/components/ui/ShinyText';
 import BlogPreview from '@/components/BlogPreview';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage({
   params
 }: {
