@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import * as schema from './schema';
 
-const connectionString = process.env.DIRECT_CONNECTION || process.env.DATABASE_URL!;
+const connectionString = process.env.DATABASE_URL!;
 
 // Prevent multiple connections during hot-reloading in development
 const globalForDb = globalThis as unknown as {
