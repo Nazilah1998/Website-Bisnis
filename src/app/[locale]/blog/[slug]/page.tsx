@@ -59,7 +59,7 @@ export default async function BlogDetailPage({ params }: Props) {
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
       </div>
 
-      <div className="container mx-auto px-4 max-w-3xl -mt-20 relative z-10">
+      <div className="container mx-auto px-4 max-w-5xl -mt-20 relative z-10">
         {/* Back */}
         <Link href="/blog" className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-200 mb-6 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Kembali ke Blog

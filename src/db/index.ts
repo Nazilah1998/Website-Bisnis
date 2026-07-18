@@ -10,7 +10,7 @@ const globalForDb = globalThis as unknown as {
 };
 
 // Batasi jumlah koneksi maksimal di pool untuk mencegah error "too many clients"
-export const client = globalForDb.client ?? postgres(connectionString, { max: 1 });
+export const client = globalForDb.client ?? postgres(connectionString, { max: 1, prepare: false });
 
 if (process.env.NODE_ENV !== 'production') globalForDb.client = client;
 
