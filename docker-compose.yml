@@ -1,0 +1,30 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: zilyadigital:latest
+    container_name: zilyadigital_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      # Port aplikasi
+      PORT: "3000"
+      BACKEND_PORT: "8080"
+      HOST: "0.0.0.0"
+
+      # Konfigurasi Koneksi Infisical Cloud (Zero Hardcode)
+      # Diisi pada panel Coolify atau environment VPS
+      INFISICAL_API_URL: "https://app.infisical.com/api"
+      INFISICAL_CLIENT_ID: "${INFISICAL_CLIENT_ID:-6043c108-d81e-492f-ba0d-3ad4ce98bcc3}"
+      INFISICAL_CLIENT_SECRET: "${INFISICAL_CLIENT_SECRET}"
+      INFISICAL_PROJECT_ID: "${INFISICAL_PROJECT_ID:-4dc09f19-337c-473f-9797-a8893fc11254}"
+      INFISICAL_ENV: "${INFISICAL_ENV:-prod}"
+      INFISICAL_SECRET_PATH: "${INFISICAL_SECRET_PATH:-/Website-Bisnis}"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s

@@ -1,0 +1,6 @@
+---
+import { getLangFromUrl } from '../../../i18n/utils';
+import AdminLoginPage from '../../../components/admin/AdminLoginPage.astro';
+const lang = getLangFromUrl(Astro.url);
+---
+<AdminLoginPage lang={lang} />

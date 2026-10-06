@@ -1,0 +1,15 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import CaseStudyContent from '@/components/portfolio/CaseStudyContent.astro';
+import { getPortfolio } from '@/lib/records';
+
+const id = Astro.params.id ?? '';
+const item = await getPortfolio(id);
+if (!item) {
+  Astro.response.status = 404;
+}
+---
+
+<Layout locale="en">
+  <CaseStudyContent lang="en" item={item} />
+</Layout>

@@ -1,0 +1,34 @@
+# Git & IDE
+.git
+.gitignore
+.gemini
+.vscode
+.idea
+*.log
+
+# Dependencies
+node_modules
+*/node_modules
+frontend/node_modules
+
+# Build outputs & caches
+frontend/dist
+frontend/.astro
+backend/tmp
+backend/pocketbase/pb_data
+dist
+tmp
+*.exe
+
+# Local environments (Semua rahasia dikelola di Infisical Cloud)
+.env
+.env.local
+*.env
+backend/.env
+backend/.env.local
+frontend/.env
+frontend/.env.local
+
+# Air live-reload
+.air.toml
+backend/.air.toml

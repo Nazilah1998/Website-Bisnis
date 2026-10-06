@@ -1,0 +1,21 @@
+---
+import { getLangFromUrl } from '../../../../i18n/utils';
+import AdminShell from '../../../../layouts/AdminShell.astro';
+import Dashboard, { type AdminStats } from '../../../../components/admin/Dashboard.tsx';
+import { apiAdmin } from '../../../../lib/server';
+
+const lang = getLangFromUrl(Astro.url);
+const token = Astro.cookies.get('admin_token')?.value;
+
+let stats: AdminStats | null = null;
+if (token) {
+  try {
+    stats = await apiAdmin<AdminStats>('/api/admin/dashboard/stats', token);
+  } catch {
+    stats = null;
+  }
+}
+---
+<AdminShell lang title="Dashboard Utama | ZilyaDigital" description="Ringkasan performa bisnis">
+  <Dashboard client:load lang={lang} stats={stats} />
+</AdminShell>

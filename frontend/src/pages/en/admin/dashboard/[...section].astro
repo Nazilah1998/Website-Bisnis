@@ -1,0 +1,34 @@
+---
+import { getLangFromUrl } from '../../../../i18n/utils';
+import CollectionPage from '../../../../components/admin/CollectionPage.astro';
+import AdminShell from '../../../../layouts/AdminShell.astro';
+
+const ROUTE_TO_COLLECTION: Record<string, string> = {
+  services: 'services',
+  portfolios: 'portfolios',
+  pricing: 'pricingPlans',
+  blog: 'posts',
+  testimonials: 'testimonials',
+  faqs: 'faqs',
+  logos: 'clientLogos',
+  clients: 'clients',
+  projects: 'projects',
+  invoices: 'invoices',
+  tickets: 'tickets',
+  stats: 'stats',
+};
+
+const { section } = Astro.params;
+const collection = section ? ROUTE_TO_COLLECTION[section] : undefined;
+const lang = getLangFromUrl(Astro.url);
+---
+{collection ? (
+  <CollectionPage collection={collection} />
+) : (
+  <AdminShell lang title="Halaman Tidak Ditemukan | ZilyaDigital">
+    <div className="text-center py-20">
+      <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">Halaman tidak ditemukan</h1>
+      <p className="text-sm text-zinc-500 mt-1">Bagian admin yang Anda tuju tidak ada.</p>
+    </div>
+  </AdminShell>
+)}

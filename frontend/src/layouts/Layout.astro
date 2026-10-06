@@ -1,0 +1,61 @@
+---
+import '../styles/globals.css';
+import type { Locale } from '@/i18n/ui';
+import { t, getLangFromUrl, localeHref } from '@/i18n/utils';
+import Header from '@/components/Header.tsx';
+import Footer from '@/components/Footer.astro';
+import { Toaster } from 'sonner';
+import type { NavLabels } from '@/components/Header.tsx';
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale?: Locale;
+}
+
+const { title = 'Platform Agensi Jasa Pembuatan Website', description = 'Kami membangun website premium untuk bisnis Anda.', locale } = Astro.props;
+
+const lang = locale ?? getLangFromUrl(Astro.url);
+const pathname = Astro.url.pathname;
+const hiddenChrome = pathname.includes('/admin');
+
+// Path halaman saat ini tanpa prefix lokale (untuk LanguageSwitcher).
+const segments = pathname.split('/');
+const cleanPath = lang !== 'id' && segments[1] === lang ? '/' + segments.slice(2).join('/') : pathname;
+
+const navLabels: NavLabels = {
+  home: t(lang, 'Navigation.home'),
+  services: t(lang, 'Navigation.services'),
+  portfolio: t(lang, 'Navigation.portfolio'),
+  pricing: t(lang, 'Navigation.pricing'),
+  testimonials: t(lang, 'Navigation.testimonials'),
+  faqs: t(lang, 'Navigation.faqs'),
+  about: t(lang, 'Navigation.about'),
+};
+---
+
+<html lang={lang} class="h-full antialiased scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400..900&family=Geist+Mono:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-full flex flex-col bg-background text-foreground">
+    {!hiddenChrome && (
+      <Header client:load locale={lang} labels={navLabels} />
+    )}
+    <main class="flex-1">
+      <slot />
+    </main>
+    {!hiddenChrome && <Footer locale={lang} />}
+    <Toaster client:load richColors position="bottom-right" />
+  </body>
+</html>

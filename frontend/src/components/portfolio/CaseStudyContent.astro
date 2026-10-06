@@ -1,0 +1,118 @@
+---
+import type { Locale } from '@/i18n/ui';
+import { localeHref } from '@/i18n/utils';
+import Lucide from '@/components/Lucide.astro';
+import type { PortfolioRecord } from '@/lib/records';
+
+interface Props {
+  lang: Locale;
+  item: PortfolioRecord | null;
+}
+
+const { lang, item: p } = Astro.props;
+
+interface ResultItem {
+  metric: string;
+  label: string;
+}
+
+function resultsOf(value?: string | null): ResultItem[] {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? (parsed as ResultItem[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function techListOf(value?: string | null): string[] {
+  if (!value) return [];
+  return value.split(',').map((s) => s.trim()).filter(Boolean);
+}
+---
+
+{p ? (
+  <div class="min-h-screen bg-background">
+    <div class="w-full h-80 md:h-[420px] overflow-hidden bg-zinc-800 relative">
+      {p.imageUrl ? <img src={p.imageUrl} alt={p.titleId ?? ''} class="w-full h-full object-cover opacity-70" crossorigin /> : null}
+      <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+      <div class="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-10">
+        <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-medium mb-3 capitalize">{p.category}</span>
+        <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-2">{lang === 'en' ? p.titleEn : p.titleId}</h1>
+        <p class="text-zinc-400">{p.clientName}</p>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 max-w-5xl py-10">
+      <a href={localeHref(lang, '/#portfolio')} class="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-zinc-200 mb-10 transition-colors">
+        <Lucide name="arrow-left" class="w-4 h-4" /> Kembali ke Portofolio
+      </a>
+
+      {resultsOf(p.results).length > 0 && (
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          {resultsOf(p.results).map((r, i) => (
+            <div key={i} class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 text-center shadow-sm">
+              <div class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-emerald-400 mb-1">{r.metric}</div>
+              <div class="text-xs text-zinc-500">{r.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-8">
+          <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
+            <h2 class="text-lg font-bold text-zinc-900 dark:text-zinc-100 mb-3">Gambaran Proyek</h2>
+            <p class="text-zinc-600 dark:text-zinc-400 leading-relaxed">{lang === 'en' ? p.descEn : p.descId}</p>
+          </div>
+
+          {p.challenge && (
+            <div class="bg-red-50 dark:bg-red-900/10 rounded-xl border border-red-200 dark:border-red-800/30 p-6">
+              <h2 class="text-lg font-bold text-red-700 dark:text-red-400 mb-3">🎯 Tantangan</h2>
+              <p class="text-red-900/80 dark:text-red-300 leading-relaxed text-sm">{p.challenge}</p>
+            </div>
+          )}
+
+          {p.solution && (
+            <div class="bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-200 dark:border-blue-800/30 p-6">
+              <h2 class="text-lg font-bold text-blue-700 dark:text-blue-400 mb-3">💡 Solusi yang Diberikan</h2>
+              <p class="text-blue-900/80 dark:text-blue-300 leading-relaxed text-sm">{p.solution}</p>
+            </div>
+          )}
+        </div>
+
+        <div class="space-y-6">
+          <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
+            <h3 class="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-3 uppercase tracking-wide">Teknologi</h3>
+            <div class="flex flex-wrap gap-2">
+              {techListOf(p.techStack).map((tech, i) => (
+                <span key={i} class="text-xs px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                  <Lucide name="check-circle" class="w-3 h-3 inline mr-1 text-emerald-500" />{tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {p.liveUrl && (
+            <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-2 w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-medium text-sm transition-colors">
+              <Lucide name="external-link" class="w-4 h-4" /> Lihat Website Live
+            </a>
+          )}
+
+          <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl p-6 text-white text-center">
+            <p class="font-bold mb-1">Proyek Serupa?</p>
+            <p class="text-blue-200 text-xs mb-4">Hubungi kami untuk konsultasi gratis</p>
+            <a href={localeHref(lang, '/#booking')} class="inline-block bg-white text-blue-700 px-5 py-2 rounded-lg text-sm font-bold hover:bg-blue-50 transition-colors">
+              Hubungi Kami
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+) : (
+  <div class="container mx-auto px-4 py-24 text-center text-zinc-400">
+    <h1 class="text-3xl font-bold text-white mb-4">Studi Kasus Tidak Ditemukan</h1>
+  </div>
+)}

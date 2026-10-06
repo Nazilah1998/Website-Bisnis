@@ -1,0 +1,51 @@
+---
+import '../styles/globals.css';
+import type { Locale } from '@/i18n/ui';
+import { getLangFromUrl } from '@/i18n/utils';
+import { isAuthed, adminLoginPath } from '@/lib/guards';
+import AdminSidebar from '@/components/admin/AdminSidebar.tsx';
+import { Toaster } from 'sonner';
+
+interface Props {
+  title?: string;
+  description?: string;
+  locale?: Locale;
+}
+
+const { title = 'Admin CMS | ZilyaDigital', description = 'Admin Portal ZilyaDigital', locale } = Astro.props;
+
+const lang = locale ?? getLangFromUrl(Astro.url);
+const pathname = Astro.url.pathname;
+
+const token = Astro.cookies.get('admin_token')?.value;
+if (!isAuthed(token)) {
+  return Astro.redirect(adminLoginPath(lang));
+}
+---
+
+<html lang={lang} class="h-full antialiased scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@400..900&family=Geist+Mono:wght@400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/jpeg" href="/logo.jpg" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-full bg-background">
+    <div class="flex h-screen bg-zinc-50 dark:bg-zinc-950 flex-col lg:flex-row overflow-hidden w-full">
+      <AdminSidebar client:load lang={lang} pathname={pathname} />
+      <main class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+        <div class="w-full">
+          <slot />
+        </div>
+      </main>
+    </div>
+    <Toaster client:load richColors position="bottom-right" />
+  </body>
+</html>

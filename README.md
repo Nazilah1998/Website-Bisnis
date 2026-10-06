@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ZilyaDigital — Monorepo
 
-## Getting Started
+Repositori ini hanya memuat **dua folder utama**: `frontend/` (Astro) dan `backend/` (Go + PocketBase). Seluruh kode Next.js/Drizzle lama sudah dihapus.
 
-First, run the development server:
+## Struktur
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+Website-Bisnis/
+├── frontend/                  # Astro 7 SSR + React 19 islands + Tailwind v4
+│   ├── src/
+│   │   ├── components/        # komponen (UI + islands React)
+│   │   ├── layouts/           # Layout.astro (public), AdminShell
+│   │   ├── lib/               # server.ts (fetch ke backend), api.ts (proxy), guards, records
+│   │   ├── pages/             # halaman id + en (public, /admin/*, /client/*, api proxy)
+│   │   └── i18n/              # ui.ts, utils.ts
+│   ├── public/                # aset statis (logo.jpg, dll)
+│   ├── astro.config.mjs
+│   └── package.json
+├── backend/                   # Go Fiber API
+│   ├── cmd/server/main.go     # entrypoint + seluruh rute
+│   ├── internal/              # config, handlers (admin, client, doku, public, auth)
+│   ├── pocketbase/            # Dockerfile, docker-compose.yml, pb_migrations
+│   ├── scripts/               # seed.ts (seed PocketBase, tanpa dependensi npm)
+│   ├── go.mod
+│   └── go.sum
+├── AGENTS.md
+├── README.md
+└── .gitignore
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Menjalankan (lokal)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+0. **Environment Variables — Terintegrasi dengan Infisical Cloud**:
+   - Seluruh variabel lingkungan dikelola terpusat di **Infisical Cloud** (Folder `/Website-Bisnis`, Environment `dev`).
+   - Tidak memerlukan berkas `.env` lokal. Saat menjalankan `npm run dev`, seluruh secret diinjeksi secara otomatis ke proses runtime melalui script runner `scripts/infisical-env.mjs`.
+   - Konfigurasi referensi template tetap tercatat di `.env.example`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **PocketBase** (database):
+   ```
+   cd backend/pocketbase
+   docker compose up -d
+   # atau jalankan binary:
+   # pocketbase serve --http=127.0.0.1:8090
+   ```
+   Migrasi schema otomatis dijalankan oleh PocketBase dari `pb_migrations`. Seed data opsional:
+   ```
+   cd backend
+   node scripts/seed.ts
+   ```
 
-## Learn More
+2. **Menjalankan Sekaligus (Frontend + Backend Air Reload via Concurrently)**:
+   ```
+   npm run dev          # Menjalankan FE (port 3000) & BE (Air reload) secara bersamaan
+   ```
+   Atau jalankan terpisah:
+   - **Backend** (Go Fiber v3 + Air live reload, port 8080):
+     ```
+     npm run dev:be
+     # atau: cd backend && air
+     ```
+   - **Frontend** (Astro port 3000):
+     ```
+     npm run dev:fe
+     # atau: cd frontend && npm run dev
+     ```
+   `BACKEND_URL` dan `SITE_URL` dibaca dari root `.env`. Browser memanggil backend via proxy path `/api/*` (lihat `frontend/src/pages/api/[...path].ts`), jadi cookie sesi (`admin_token`, `client_token`) bekerja same-origin.
 
-To learn more about Next.js, take a look at the following resources:
+## Akun bawaan (hasil seed)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Role  | Username/Email | Password    |
+|-------|----------------|-------------|
+| Admin | `admin`        | `admin123456` |
+| Klien | `budi@tokobagus.co.id` | `demo1234` |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Alur pembayaran
+`frontend` → `POST /api/doku/checkout` (proxy ke backend) → generate sesi DOKU → `{payment_url}` ditampilkan dalam iframe. Webhook `POST /api/doku/webhook` menandai invoice `paid`. Butuh env `DOKU_CLIENT_ID` dan `DOKU_SECRET_KEY` agar berfungsi; tanpa itu checkout mengembalikan galat.

@@ -1,0 +1,258 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import { t, getLangFromUrl, localeHref } from '../../../../i18n/utils';
+import { isAuthed, clientLoginPath } from '../../../../lib/guards';
+import { apiClient } from '../../../../lib/server';
+import ClientLogout from '../../../../components/client/ClientLogout.tsx';
+import TicketForm from '../../../../components/client/TicketForm.tsx';
+import PayButton from '../../../../components/client/PayButton.tsx';
+import Lucide from '../../../../components/Lucide.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const token = Astro.cookies.get('client_token')?.value;
+
+if (!isAuthed(token)) {
+  return Astro.redirect(clientLoginPath(lang));
+}
+
+interface DashResp {
+  client: { id: string; name: string };
+  projects: Record<string, any>[];
+  assets: Record<string, any>[];
+  invoices: Record<string, any>[];
+  tickets: Record<string, any>[];
+}
+
+let data: DashResp;
+try {
+  data = await apiClient<DashResp>('/api/client/dashboard', token!);
+} catch {
+  return Astro.redirect(clientLoginPath(lang));
+}
+
+const PHASE_LABELS: Record<string, string> = { desain: 'Fase Desain', development: 'Fase Development', testing: 'Fase Testing & Q.A', launch: 'Peluncuran' };
+const PHASES = ['desain', 'development', 'testing', 'launch'];
+
+const STATUS: Record<string, { label: string; icon: string; cls: string }> = {
+  pending: { label: 'Menunggu Dimulai', icon: 'clock', cls: 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300' },
+  in_progress: { label: 'Sedang Dikerjakan', icon: 'wrench', cls: 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300' },
+  review: { label: 'Dalam Review', icon: 'check-circle', cls: 'bg-purple-100 text-purple-700 dark:bg-purple-950/40 dark:text-purple-300' },
+  done: { label: 'Selesai & Terkirim', icon: 'rocket', cls: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300' },
+};
+
+const INVOICE_STATUS: Record<string, { label: string; cls: string }> = {
+  paid: { label: 'Lunas', cls: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300' },
+  unpaid: { label: 'Belum Lunas', cls: 'bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300' },
+  overdue: { label: 'Jatuh Tempo', cls: 'bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-300' },
+};
+
+const TICKET_STATUS: Record<string, { label: string; cls: string }> = {
+  open: { label: 'Menunggu Balasan', cls: 'bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300' },
+  resolved: { label: 'Selesai (Resolved)', cls: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300' },
+};
+
+const fmtDate = (v?: string | null) => {
+  if (!v) return '—';
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? '—' : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+};
+
+const projectMap = Object.fromEntries(data.projects.map((p) => [p.id, p]));
+const clientName = data.client.name ?? '';
+const homeContact = localeHref(lang, '/#booking');
+---
+
+<Layout title="Client Portal | ZilyaDigital" locale={lang}>
+  <div class="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-10">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Client Portal</h1>
+          <p class="text-sm text-zinc-500 mt-1">Selamat datang, <strong class="text-zinc-700 dark:text-zinc-200">{clientName}</strong></p>
+        </div>
+        <ClientLogout client:load lang={lang} />
+      </div>
+
+      <!-- Proyek Aktif -->
+      <section class="mb-14">
+        <div class="flex items-center gap-2 mb-5">
+          <div class="h-2 w-2 rounded-full bg-indigo-600" />
+          <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Proyek Aktif</h2>
+        </div>
+
+        {data.projects.length === 0 ? (
+          <div class="text-center border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl py-16">
+            <p class="text-zinc-400">Belum ada proyek aktif.</p>
+          </div>
+        ) : (
+          <div class="grid gap-6 md:grid-cols-2">
+            {data.projects.map((project) => {
+              const status = STATUS[project.status] ?? STATUS.pending;
+              const phaseIdx = PHASES.indexOf(project.phase);
+              const assets = data.assets.filter((a) => a.projectId === project.id);
+              const progress = Math.min(100, Math.max(0, Number(project.progressPercent) || 0));
+              return (
+                <article key={project.id} class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <h3 class="text-base font-semibold text-zinc-900 dark:text-white">{project.title}</h3>
+                    <span class={`shrink-0 inline-flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full ${status.cls}`}>
+                      <Lucide name={status.icon} class="w-3.5 h-3.5" />
+                      {status.label}
+                    </span>
+                  </div>
+                  <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4 line-clamp-3">{project.description}</p>
+
+                  <div class="mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-xs font-medium text-zinc-500">Progress</span>
+                      <span class="text-xs font-semibold text-zinc-900 dark:text-white">{progress}%</span>
+                    </div>
+                    <div class="h-2 w-full rounded-full bg-zinc-100 dark:bg-zinc-800 overflow-hidden">
+                      <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all" style={`width: ${progress}%`} />
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <div class="flex gap-1.5">
+                      {PHASES.map((phase, idx) => {
+                        const done = idx < phaseIdx;
+                        const active = idx === phaseIdx;
+                        return (
+                          <div key={phase} class="flex-1">
+                            <div class={`h-1.5 rounded-full ${done || active ? 'bg-indigo-500' : 'bg-zinc-200 dark:bg-zinc-700'}`} />
+                            <p class={`mt-1.5 text-[10px] font-medium text-center leading-tight ${active ? 'text-indigo-600 dark:text-indigo-300' : done ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                              {PHASE_LABELS[phase]}
+                            </p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-2 text-xs text-zinc-500 mb-4">
+                    <div>
+                      <span class="font-medium text-zinc-400">Mulai</span>
+                      <p class="text-zinc-700 dark:text-zinc-200">{fmtDate(project.startedAt)}</p>
+                    </div>
+                    <div>
+                      <span class="font-medium text-zinc-400">Selesai</span>
+                      <p class="text-zinc-700 dark:text-zinc-200">{fmtDate(project.deliveredAt)}</p>
+                    </div>
+                  </div>
+
+                  {project.notes && (
+                    <p class="text-xs text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-800/60 rounded-lg p-3 mb-4">{project.notes}</p>
+                  )}
+
+                  {assets.length > 0 && (
+                    <div class="space-y-2">
+                      <p class="text-xs font-semibold text-zinc-500">File & Aset</p>
+                      {assets.map((asset) => (
+                        <a
+                          key={asset.id}
+                          href={asset.fileUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          class="flex items-center gap-2 text-sm text-indigo-600 dark:text-indigo-400 hover:underline bg-indigo-50/60 dark:bg-indigo-950/30 rounded-lg px-3 py-2"
+                        >
+                          <Lucide name="download" class="w-4 h-4 shrink-0" />
+                          <span class="truncate">{asset.fileName}</span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </article>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      <!-- Tagihan Pembayaran -->
+      <section class="mb-14">
+        <div class="flex items-center gap-2 mb-5">
+          <div class="h-2 w-2 rounded-full bg-emerald-600" />
+          <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Tagihan Pembayaran</h2>
+        </div>
+
+        {data.invoices.length === 0 ? (
+          <div class="text-center border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl py-16">
+            <p class="text-zinc-400">Tidak ada tagihan untuk ditampilkan.</p>
+          </div>
+        ) : (
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {data.invoices.map((invoice) => {
+              const badge = INVOICE_STATUS[invoice.status] ?? INVOICE_STATUS.unpaid;
+              const project = projectMap[invoice.projectId] ?? {};
+              const amount = Number(invoice.amount) || 0;
+              return (
+                <div key={invoice.id} class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-sm">
+                  <div class="flex items-start justify-between gap-2 mb-3">
+                    <div class="flex items-center gap-2 text-zinc-500">
+                      <Lucide name="receipt" class="w-4 h-4" />
+                      <span class="text-xs font-medium">{project.title ?? 'Tagihan'}</span>
+                    </div>
+                    <span class={`shrink-0 text-xs font-medium px-2.5 py-1 rounded-full ${badge.cls}`}>{badge.label}</span>
+                  </div>
+                  <p class="text-sm text-zinc-600 dark:text-zinc-300 mb-2 line-clamp-2">{invoice.description}</p>
+                  <p class="text-xl font-bold text-zinc-900 dark:text-white mb-1">Rp {amount.toLocaleString('id-ID')}</p>
+                  <p class="text-xs text-zinc-400 mb-1">Jatuh tempo: {invoice.dueDate ? fmtDate(invoice.dueDate) : '—'}</p>
+                  {invoice.status === 'unpaid' && <PayButton client:load invoiceId={invoice.id} />}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </section>
+
+      <!-- Tiket & Bantuan -->
+      <section class="mb-14">
+        <div class="flex items-center gap-2 mb-5">
+          <div class="h-2 w-2 rounded-full bg-purple-600" />
+          <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">Tiket & Bantuan</h2>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-3">
+          <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
+            <div class="flex items-center gap-2 mb-4">
+              <Lucide name="life-buoy" class="w-5 h-5 text-purple-600" />
+              <h3 class="text-sm font-semibold text-zinc-900 dark:text-white">Ajukan Tiket Baru</h3>
+            </div>
+            <TicketForm client:load />
+          </div>
+
+          <div class="lg:col-span-2 space-y-3">
+            {data.tickets.length === 0 ? (
+              <div class="text-center border-2 border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl py-12">
+                <p class="text-zinc-400">Belum ada tiket bantuan.</p>
+              </div>
+            ) : (
+              data.tickets.slice().reverse().map((ticket) => {
+                const badge = TICKET_STATUS[ticket.status] ?? TICKET_STATUS.open;
+                return (
+                  <div key={ticket.id} class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-4 shadow-sm">
+                    <div class="flex items-start justify-between gap-3 mb-1.5">
+                      <p class="text-sm font-semibold text-zinc-900 dark:text-white">{ticket.subject}</p>
+                      <span class={`shrink-0 text-xs font-medium px-2.5 py-0.5 rounded-full ${badge.cls}`}>{badge.label}</span>
+                    </div>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-2">{ticket.message}</p>
+                    <p class="text-xs text-zinc-400">{fmtDate(ticket.createdAt)}</p>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 p-8 sm:p-10 text-center text-white">
+        <h2 class="text-xl sm:text-2xl font-bold mb-2">Butuh bantuan lebih lanjut?</h2>
+        <p class="text-indigo-100 mb-5 text-sm">Tim kami siap membantu Anda kapan saja.</p>
+        <a href={homeContact} class="inline-flex items-center justify-center rounded-lg bg-white text-indigo-700 font-semibold text-sm px-6 py-3 hover:bg-indigo-50 transition-colors">
+          Hubungi Tim Kami
+        </a>
+      </section>
+    </div>
+  </div>
+</Layout>

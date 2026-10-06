@@ -1,0 +1,15 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import BlogDetailContent from '@/components/blog/BlogDetailContent.astro';
+import { getPublishedPost } from '@/lib/records';
+
+const slug = Astro.params.slug ?? '';
+const post = await getPublishedPost(slug);
+if (!post) {
+  Astro.response.status = 404;
+}
+---
+
+<Layout locale="en">
+  <BlogDetailContent lang="en" post={post} />
+</Layout>

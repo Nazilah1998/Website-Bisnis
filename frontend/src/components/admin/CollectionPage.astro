@@ -1,0 +1,81 @@
+---
+import type { Locale } from '@/i18n/ui';
+import { getLangFromUrl } from '@/i18n/utils';
+import AdminShell from '@/layouts/AdminShell.astro';
+import CollectionManager, { type Row } from '@/components/admin/CollectionManager.tsx';
+import { apiAdmin } from '@/lib/server';
+import { META, type CollectionMeta } from '@/lib/adminMeta';
+
+interface Props {
+  collection: string;
+  locale?: Locale;
+}
+
+const { collection, locale } = Astro.props;
+const lang = locale ?? getLangFromUrl(Astro.url);
+const meta: CollectionMeta = META[collection];
+const token = Astro.cookies.get('admin_token')?.value;
+
+interface Ctx {
+  clients?: { id: string; name: string }[];
+  projectOptions?: { id: string; title: string; clientName: string }[];
+  assets?: { id: string; projectId: string; fileName: string; fileUrl: string; uploadedAt: string | null }[];
+}
+
+let rows: Row[] = [];
+let ctx: Ctx = {};
+
+if (token) {
+  try {
+    const base = await apiAdmin<Row[]>(`/api/admin/${collection}`, token);
+    if (collection === 'projects' || collection === 'invoices' || collection === 'tickets') {
+      const [clients, assets, projects] = await Promise.all([
+        apiAdmin<{ id: string; name: string }[]>('/api/admin/clients', token),
+        apiAdmin<{ id: string; projectId: string }[]>('/api/admin/projectAssets', token),
+        apiAdmin<{ id: string; title: string; clientId: string }[]>('/api/admin/projects', token),
+      ]);
+      const clientMap = Object.fromEntries(clients.map((c) => [c.id, c.name]));
+
+      if (collection === 'projects') {
+        rows = base.map((p) => ({ ...p, _client: clientMap[p.clientId as string] || '—' }));
+        ctx = {
+          clients: clients.map((c) => ({ id: c.id, name: c.name })),
+          assets,
+        };
+      } else if (collection === 'invoices') {
+        const projectMap = Object.fromEntries(projects.map((p) => [p.id, { title: p.title, clientId: p.clientId }]));
+        rows = base.map((inv) => {
+          const proj = projectMap[inv.projectId as string] as { title: string; clientId: string } | undefined;
+          return {
+            ...inv,
+            _client: proj ? clientMap[proj.clientId] || '—' : '—',
+            _project: proj?.title || '',
+          };
+        });
+        ctx = {
+          projectOptions: projects.map((p) => ({ id: p.id, title: p.title, clientName: clientMap[p.clientId] || 'Unknown' })),
+        };
+      } else {
+        rows = base.map((t) => {
+          const created = typeof t.createdAt === 'string' ? new Date(t.createdAt) : null;
+          const dateStr = created && !Number.isNaN(created.getTime())
+            ? created.toLocaleString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+            : '-';
+          return {
+            ...t,
+            _client: clientMap[t.clientId as string] || 'Klien Tidak Diketahui',
+            _date: dateStr,
+          };
+        });
+      }
+    } else {
+      rows = base;
+    }
+  } catch {
+    rows = [];
+  }
+}
+---
+<AdminShell lang title={`${meta.title} | ZilyaDigital`} description={meta.description}>
+  <CollectionManager client:load lang={lang} collection={collection} rows={rows} ctx={ctx} />
+</AdminShell>
