@@ -48,9 +48,15 @@ FROM node:22-alpine AS runner
 WORKDIR /app
 
 # Install system utilities and Infisical CLI
-RUN apk add --no-cache ca-certificates tzdata curl bash && \
-    curl -1sLf 'https://dl.cloudsmith.io/public/infisical/infisical-cli/setup.alpine.sh' | bash && \
-    apk add --no-cache infisical
+RUN apk add --no-cache ca-certificates tzdata curl bash tar && \
+    ARCH=$(uname -m) && \
+    if [ "$ARCH" = "x86_64" ]; then INF_ARCH="linux_amd64"; \
+    elif [ "$ARCH" = "aarch64" ]; then INF_ARCH="linux_arm64"; \
+    else INF_ARCH="linux_amd64"; fi && \
+    curl -1sLf "https://github.com/Infisical/cli/releases/download/v0.43.139/cli_0.43.139_${INF_ARCH}.tar.gz" -o /tmp/infisical.tar.gz && \
+    tar -xzf /tmp/infisical.tar.gz -C /usr/local/bin infisical && \
+    rm -f /tmp/infisical.tar.gz && \
+    chmod +x /usr/local/bin/infisical
 
 # Copy backend binary
 COPY --from=builder-be /app/bin/server /app/bin/server
