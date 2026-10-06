@@ -3,7 +3,7 @@
 # ==========================================
 # Stage 1: Build Backend (Go Fiber v3)
 # ==========================================
-FROM golang:1.24-alpine AS builder-be
+FROM golang:alpine AS builder-be
 
 WORKDIR /app/backend
 

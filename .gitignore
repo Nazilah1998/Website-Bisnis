@@ -26,6 +26,18 @@ coverage.out
 *.test
 tmp/
 backend/tmp/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Archives
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+*.7z
 
 # OS junk
 .DS_Store
