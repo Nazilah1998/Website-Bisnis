@@ -2,6 +2,15 @@
 import type { Locale } from '@/i18n/ui';
 import { t, localeHref } from '@/i18n/utils';
 import { getPublic } from '@/lib/server';
+import type {
+  ClientLogoRecord,
+  ServiceRecord,
+  PortfolioRecord,
+  TestimonialRecord,
+  PricingRecord,
+  FaqRecord,
+  PostRecord,
+} from '@/lib/records';
 import FloatingLines from '@/components/ui/FloatingLines.tsx';
 import { ShinyText } from '@/components/ui/ShinyText.tsx';
 import ServicesGrid from '@/components/home/ServicesGrid.tsx';
@@ -22,13 +31,13 @@ interface Props {
 const lang = Astro.props.lang;
 
 const [services, logos, portfolios, testimonials, plans, faqs, posts] = await Promise.all([
-  getPublic('services', { filter: 'isActive=true' }),
-  getPublic('clientLogos', { filter: 'isActive=true' }),
-  getPublic('portfolios', { sort: '-created' }),
-  getPublic('testimonials', { sort: '-created' }),
-  getPublic('pricingPlans'),
-  getPublic('faqs', { sort: 'orderIdx' }),
-  getPublic('posts', { filter: 'isPublished=true', sort: '-created' }),
+  getPublic<ServiceRecord>('services', { filter: 'isActive=true' }),
+  getPublic<ClientLogoRecord>('clientLogos', { filter: 'isActive=true' }),
+  getPublic<PortfolioRecord>('portfolios', { sort: '-created' }),
+  getPublic<TestimonialRecord>('testimonials', { sort: '-created' }),
+  getPublic<PricingRecord>('pricingPlans'),
+  getPublic<FaqRecord>('faqs', { sort: 'orderIdx' }),
+  getPublic<PostRecord>('posts', { filter: 'isPublished=true', sort: '-created' }),
 ]);
 
 const hp = {
@@ -74,8 +83,10 @@ const portfolioHref = localeHref(lang, '/#portfolio');
       bendStrength={-0.5}
       interactive={true}
       parallax={true}
+      linesGradient={['#3b82f6', '#6366f1', '#a855f7', '#06b6d4']}
     />
-    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none"></div>
+    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background pointer-events-none"></div>
   </div>
 
   <div class="container relative z-10 mx-auto px-4 text-center">
@@ -100,7 +111,7 @@ const portfolioHref = localeHref(lang, '/#portfolio');
   </div>
 </section>
 
-<ClientLogos logos={logos} />
+<ClientLogos lang={lang} logos={logos} />
 <ServicesGrid client:load lang={lang} services={services} labels={labels.services} />
 <PortfolioGrid client:load lang={lang} items={portfolios} labels={labels.portfolio} />
 <TestimonialsCarousel client:load lang={lang} items={testimonials} labels={labels.testimonials} />

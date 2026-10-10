@@ -78,9 +78,7 @@ export default function Header({ locale, labels }: Props) {
               </Href>
             </div>
           </div>
-          <div className="hidden lg:block w-px h-6 bg-white/10" />
-
-          <LanguageSwitcher locale={locale} path={localeHref(locale === "id" ? "en" : "id", "/")} />
+          <LanguageSwitcher locale={locale} path="/" />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden" />}>
               <Menu className="h-6 w-6" />
