@@ -27,7 +27,13 @@ function Card({ item, lang, suffix }: { item: TestimonialRecord; lang: Locale; s
         <p className="flex-1 text-foreground/90 italic leading-relaxed mb-8">&quot;{content}&quot;</p>
         <div className="flex items-center gap-4 mt-auto">
           {item.avatarUrl ? (
-            <img src={item.avatarUrl} alt={item.clientName ?? ""} className="w-12 h-12 rounded-full object-cover ring-2 ring-white/10" />
+            <img
+              src={item.avatarUrl}
+              alt={item.clientName ?? ""}
+              loading="lazy"
+              decoding="async"
+              className="w-12 h-12 rounded-full object-cover ring-2 ring-white/10"
+            />
           ) : null}
           <div>
             <h4 className="font-bold">{item.clientName}</h4>
@@ -43,7 +49,7 @@ export default function TestimonialsCarousel({ lang, items, labels }: Props) {
   if (items.length === 0) return null;
 
   return (
-    <section className="py-24 bg-background relative overflow-hidden">
+    <section id="testimonials" className="py-24 bg-background relative overflow-hidden scroll-mt-20">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none"></div>
 
       <div className="container mx-auto px-4 relative z-10">

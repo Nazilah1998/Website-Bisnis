@@ -20,7 +20,8 @@ export default function FaqsAccordion({ lang, items, labels }: Props) {
   if (items.length === 0) return null;
 
   return (
-    <section id="faq" className="py-24 bg-muted/20">
+    <section id="faqs" className="py-24 bg-muted/20 scroll-mt-20 relative">
+      <div id="faq" className="absolute -top-20" aria-hidden="true" />
       <div className="container mx-auto px-4 max-w-3xl">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{labels.title}</h2>

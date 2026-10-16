@@ -12,64 +12,88 @@ const dashboard = adminDashboardPath(lang);
 const year = new Date().getFullYear();
 ---
 
-<html lang={lang} class="h-full antialiased scroll-smooth">
+<html lang={lang} class="dark h-full antialiased scroll-smooth">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Geist:wght@400..900&family=Geist+Mono:wght@400..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
       rel="stylesheet"
     />
     <link rel="icon" type="image/jpeg" href="/logo.jpg" />
-    <title>Login Admin | ZilyaDigital</title>
+    <title>Sistem Autentikasi Pengelola | ZilyaDigital</title>
   </head>
-  <body class="min-h-screen w-full flex bg-background">
-    <div class="hidden lg:flex w-1/2 bg-zinc-950 relative overflow-hidden flex-col justify-between p-12">
-      <div class="absolute top-0 left-0 w-full h-full">
-        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[100px]" />
-        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[100px]" />
+  <body class="min-h-screen w-full flex flex-col lg:flex-row bg-zinc-950 text-zinc-100 selection:bg-purple-600/30">
+    <div class="hidden lg:flex w-1/2 bg-zinc-950 relative overflow-hidden flex-col justify-between p-12 xl:p-16 border-r border-zinc-800/70">
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute -top-24 -left-24 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-12 right-12 w-96 h-96 bg-blue-600/15 rounded-full blur-[140px]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(#27272a_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
       </div>
 
-      <div class="relative z-10 flex items-center gap-2">
-        <img src="/logo.jpg" alt="ZilyaDigital Logo" width={32} height={32} class="rounded-md" />
-        <span class="text-2xl font-bold text-white tracking-tight">ZilyaDigital Admin</span>
+      <div class="relative z-10 flex items-center justify-between">
+        <a href={home} class="flex items-center gap-3">
+          <img src="/logo.jpg" alt="ZilyaDigital Logo" width={40} height={40} class="rounded-xl shadow-lg ring-1 ring-white/10" />
+          <div>
+            <span class="text-xl font-bold text-white tracking-tight block">ZilyaDigital</span>
+            <span class="text-xs text-purple-400">Administrative Core</span>
+          </div>
+        </a>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+          Restricted Area
+        </span>
       </div>
 
-      <div class="relative z-10 max-w-md">
-        <h1 class="text-4xl font-bold text-white mb-6 leading-tight">
+      <div class="relative z-10 max-w-md my-auto py-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
+          Internal Console
+        </div>
+        <h1 class="text-3xl xl:text-4xl font-extrabold text-white mb-6 leading-tight tracking-tight">
           Platform Manajemen Agensi Digital
         </h1>
-        <p class="text-zinc-400 text-lg leading-relaxed">
-          Kelola portofolio, layanan, prospek klien, dan seluruh aset digital dari satu dashboard terpusat yang aman.
+        <p class="text-zinc-400 text-base leading-relaxed">
+          Kelola portofolio, layanan, prospek klien, dan seluruh aset digital dari satu console terpusat yang aman.
         </p>
       </div>
 
-      <div class="relative z-10">
-        <p class="text-sm text-zinc-500">
-          &copy; {year} ZilyaDigital. All rights reserved.
-        </p>
+      <div class="relative z-10 flex items-center justify-between text-xs text-zinc-500 border-t border-zinc-800/60 pt-6">
+        <p>&copy; {year} ZilyaDigital. Hak Cipta Dilindungi.</p>
+        <span class="text-zinc-600">Zero Trust Access</span>
       </div>
     </div>
 
-    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-24 bg-white dark:bg-zinc-950 relative">
-      <a
-        href={home}
-        class="absolute top-8 right-8 flex items-center gap-2 text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white transition-colors bg-zinc-100 dark:bg-zinc-900 px-4 py-2 rounded-lg"
-      >
-        <ArrowLeft name="arrow-left" class="w-4 h-4" />
-        Ke Beranda
-      </a>
-      <div class="w-full max-w-md space-y-8">
-        <div class="text-center lg:text-left">
-          <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">Selamat Datang Kembali</h2>
-          <p class="text-sm text-zinc-500 mt-2">
-            Silakan masukkan kredensial Anda untuk masuk ke sistem admin.
+    <div class="w-full lg:w-1/2 min-h-screen flex flex-col justify-between p-6 sm:p-10 lg:p-16 bg-zinc-950 relative overflow-y-auto">
+      <div class="relative z-10 flex items-center justify-between w-full mb-8">
+        <a href={home} class="flex lg:hidden items-center gap-2">
+          <img src="/logo.jpg" alt="ZilyaDigital Logo" width={32} height={32} class="rounded-lg shadow-sm" />
+          <span class="text-lg font-bold text-white tracking-tight">ZilyaDigital</span>
+        </a>
+
+        <a
+          href={home}
+          class="ml-auto inline-flex items-center gap-2 text-xs sm:text-sm font-medium text-zinc-400 hover:text-white transition-all bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-sm"
+        >
+          <ArrowLeft name="arrow-left" class="w-4 h-4" />
+          <span>Ke Beranda</span>
+        </a>
+      </div>
+
+      <div class="relative z-10 w-full max-w-md mx-auto my-auto py-6 space-y-6">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">Selamat Datang Kembali</h2>
+          <p class="text-sm text-zinc-400 mt-2">
+            Silakan masukkan kredensial resmi untuk masuk ke konsol manajemen admin.
           </p>
         </div>
 
         <LoginForm client:load lang={lang} />
+      </div>
+
+      <div class="relative z-10 w-full text-center text-xs text-zinc-500 pt-6">
+        <p>Akses ini dilindungi enkripsi. Upaya masuk tanpa hak akan dicatat ke dalam audit trail.</p>
       </div>
     </div>
   </body>

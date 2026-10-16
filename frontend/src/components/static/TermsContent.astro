@@ -1,30 +1,123 @@
-<div class="container mx-auto px-4 py-24 max-w-4xl text-zinc-300">
-  <h1 class="text-4xl font-bold text-white mb-8">Terms of Service</h1>
-  <div class="space-y-6">
-    <p>
-      Welcome to ZilyaDigital! These terms and conditions outline the rules and regulations for the use of ZilyaDigital's Website, located at zilyadigital.vercel.app.
-    </p>
-    <p>
-      By accessing this website we assume you accept these terms and conditions. Do not continue to use ZilyaDigital if you do not agree to take all of the terms and conditions stated on this page.
-    </p>
-    <h2 class="text-2xl font-semibold text-white mt-8">License</h2>
-    <p>
-      Unless otherwise stated, ZilyaDigital and/or its licensors own the intellectual property rights for all material on ZilyaDigital. All intellectual property rights are reserved. You may access this from ZilyaDigital for your own personal use subjected to restrictions set in these terms and conditions.
-    </p>
-    <h2 class="text-2xl font-semibold text-white mt-8">User Comments</h2>
-    <p>
-      Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. ZilyaDigital does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of ZilyaDigital, its agents and/or affiliates.
-    </p>
-    <h2 class="text-2xl font-semibold text-white mt-8">Hyperlinking to our Content</h2>
-    <p>
-      The following organizations may link to our Website without prior written approval:
-    </p>
-    <ul class="list-disc pl-6 space-y-2">
-      <li>Government agencies;</li>
-      <li>Search engines;</li>
-      <li>News organizations;</li>
-      <li>Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and</li>
-      <li>System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.</li>
-    </ul>
-  </div>
+---
+interface Props {
+  lang?: 'id' | 'en';
+}
+
+const { lang = 'id' } = Astro.props;
+const lastUpdated = "16 Oktober 2026";
+const lastUpdatedEn = "October 16, 2026";
+---
+
+<div class="container mx-auto px-4 py-20 max-w-4xl text-zinc-300">
+  {lang === 'id' ? (
+    <article class="space-y-8">
+      <div class="border-b border-zinc-800 pb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-3">
+          Ketentuan Layanan Resmi
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Syarat & Ketentuan Layanan (Terms of Service)</h1>
+        <p class="text-sm text-zinc-400 mt-2">Terakhir diperbarui: {lastUpdated}</p>
+      </div>
+
+      <div class="space-y-6 leading-relaxed text-zinc-300">
+        <p>
+          Selamat datang di <strong>ZilyaDigital</strong>. Ketentuan Layanan ini mengatur penggunaan situs web, portal klien, serta seluruh layanan desain dan pengembangan perangkat lunak/website yang disediakan oleh ZilyaDigital (<a href="https://zilyadigital.com" class="text-blue-400 hover:underline">zilyadigital.com</a> / <a href="https://nazilah.id" class="text-blue-400 hover:underline">nazilah.id</a>).
+        </p>
+        <p>
+          Dengan mengakses situs kami atau membuat akun klien, Anda menyatakan setuju dan terikat oleh seluruh syarat dan ketentuan di bawah ini.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">1. Akun Klien & Akses Portal</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Klien bertanggung jawab penuh atas kerahasiaan kredensial akun portal klien (email, password, dan token autentikasi Google).</li>
+          <li>Setiap aktivitas yang terjadi di bawah akun Anda dianggap sebagai tindakan sah atas nama Anda atau entitas bisnis yang Anda wakili.</li>
+          <li>Anda dilarang membagikan akses akun kepada pihak ketiga yang tidak berwenang atau mencoba merusak integritas keamanan portal.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">2. Ruang Lingkup Layanan & Pengerjaan Proyek</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>ZilyaDigital menyediakan jasa perancangan antarmuka (UI/UX), pembuatan website (company profile, e-commerce, landing page), dan pengembangan software kustom.</li>
+          <li>Setiap proyek akan memiliki dokumen kesepakatan spesifikasi teknis, jadwal milestone sprint, dan alokasi revisi yang disepakati sebelum pengerjaan dimulai.</li>
+          <li>Perubahan fitur atau penambahan kebutuhan di luar kesepakatan awal (scope creep) akan dihitung sebagai add-on atau penyesuaian invoice terpisah.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">3. Pembayaran & Penagihan Faktur</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Skema pembayaran umumnya dilakukan bertahap (Down Payment / Termin Milestone) sesuai kesepakatan invoice resmi.</li>
+          <li>Deliverables utama (source code lengkap, transfer kepemilikan domain, dan deployment produksi) akan diserahkan setelah pelunasan tagihan diverifikasi.</li>
+          <li>Keterlambatan pembayaran dapat mengakibatkan penangguhan sementara atas server staging atau jadwal pengerjaan proyek.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">4. Hak Kekayaan Intelektual (HAKI)</h2>
+        <p>
+          Setelah seluruh kewajiban pembayaran diselesaikan secara penuh, hak kepemilikan atas kode sumber akhir, aset grafis kustom, dan konten proyek yang dibuat secara spesifik untuk klien akan dialihkan sepenuhnya kepada klien, kecuali komponen open-source pihak ketiga yang tunduk pada lisensinya masing-masing (mis. MIT, Apache 2.0).
+        </p>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">5. Batasan Tanggung Jawab</h2>
+        <p>
+          ZilyaDigital tidak bertanggung jawab atas kerugian tidak langsung, kehilangan data akibat kelalaian kredensial pihak ketiga, atau downtime yang disebabkan oleh penyedia hosting/cloud pihak ketiga (mis. Cloudflare, AWS, Google Cloud).
+        </p>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">6. Kontak & Bantuan</h2>
+        <p>
+          Untuk pertanyaan terkait Ketentuan Layanan ini, silakan hubungi <a href="mailto:support@zilyadigital.com" class="text-blue-400 underline">support@zilyadigital.com</a> atau WhatsApp <a href="https://wa.me/6282157204572" class="text-emerald-400 underline">+62 821-5720-4572</a>.
+        </p>
+      </div>
+    </article>
+  ) : (
+    <article class="space-y-8">
+      <div class="border-b border-zinc-800 pb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold uppercase tracking-wider mb-3">
+          Official Terms of Service
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Terms of Service</h1>
+        <p class="text-sm text-zinc-400 mt-2">Last updated: {lastUpdatedEn}</p>
+      </div>
+
+      <div class="space-y-6 leading-relaxed text-zinc-300">
+        <p>
+          Welcome to <strong>ZilyaDigital</strong>. These Terms of Service govern your access to and use of our websites (<a href="https://zilyadigital.com" class="text-blue-400 hover:underline">zilyadigital.com</a> / <a href="https://nazilah.id" class="text-blue-400 hover:underline">nazilah.id</a>), client workspaces, and software design & development services provided by ZilyaDigital.
+        </p>
+        <p>
+          By creating an account, authenticating via Google Sign-In, or contracting services with us, you acknowledge and agree to comply with these terms.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">1. Client Portal Account & Security</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>You are solely responsible for safeguarding the credentials associated with your account, including email logins and Google OAuth sessions.</li>
+          <li>All activities performed through your authenticated workspace are deemed authorized by your organization.</li>
+          <li>You must immediately notify ZilyaDigital of any unauthorized use or security vulnerability discovered.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">2. Scope of Work & Engineering Deliverables</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>ZilyaDigital provides custom software development, UI/UX architecture, responsive web applications, and technical consulting.</li>
+          <li>Each engagement is bounded by agreed sprint milestones, deliverable definitions, and revision allowances documented in our project proposal.</li>
+          <li>Out-of-scope requests or major pivot items will be estimated and billed as separate milestone amendments.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">3. Invoicing & Payment Terms</h2>
+        <ul class="list-disc pl-6 space-y-2">
+          <li>Billing schedules generally follow milestone installments (e.g. initial deposit and milestone completion payments).</li>
+          <li>Final production code releases, repository transfers, and production server handoffs occur upon receipt and verification of settlement.</li>
+          <li>Overdue accounts may result in temporary suspension of staging previews or maintenance allocations.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">4. Intellectual Property</h2>
+        <p>
+          Upon full payment of all contractual fees, full ownership and intellectual property rights in bespoke software code and assets created specifically for the client are assigned to the client, excluding pre-existing libraries or third-party open-source dependencies governed by their respective licenses (e.g. MIT, Apache 2.0).
+        </p>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">5. Limitation of Liability</h2>
+        <p>
+          In no event shall ZilyaDigital be liable for consequential, incidental, or indirect damages arising out of cloud provider downtime (e.g. AWS, Cloudflare, Google Cloud) or client misconfigurations.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white pt-4 border-t border-zinc-800/80">6. Contact Us</h2>
+        <p>
+          For questions regarding these terms, please contact <a href="mailto:support@zilyadigital.com" class="text-blue-400 underline">support@zilyadigital.com</a>.
+        </p>
+      </div>
+    </article>
+  )}
 </div>

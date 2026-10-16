@@ -10,9 +10,11 @@ import type {
   PricingRecord,
   FaqRecord,
   PostRecord,
+  StatRecord,
 } from '@/lib/records';
 import FloatingLines from '@/components/ui/FloatingLines.tsx';
 import { ShinyText } from '@/components/ui/ShinyText.tsx';
+import StatsBar from '@/components/home/StatsBar.tsx';
 import ServicesGrid from '@/components/home/ServicesGrid.tsx';
 import PortfolioGrid from '@/components/home/PortfolioGrid.tsx';
 import PricingGrid from '@/components/home/PricingGrid.tsx';
@@ -30,7 +32,7 @@ interface Props {
 
 const lang = Astro.props.lang;
 
-const [services, logos, portfolios, testimonials, plans, faqs, posts] = await Promise.all([
+const [services, logos, portfolios, testimonials, plans, faqs, posts, stats] = await Promise.all([
   getPublic<ServiceRecord>('services', { filter: 'isActive=true' }),
   getPublic<ClientLogoRecord>('clientLogos', { filter: 'isActive=true' }),
   getPublic<PortfolioRecord>('portfolios', { sort: '-created' }),
@@ -38,6 +40,7 @@ const [services, logos, portfolios, testimonials, plans, faqs, posts] = await Pr
   getPublic<PricingRecord>('pricingPlans'),
   getPublic<FaqRecord>('faqs', { sort: 'orderIdx' }),
   getPublic<PostRecord>('posts', { filter: 'isPublished=true', sort: '-created' }),
+  getPublic<StatRecord>('stats', { sort: 'orderIdx' }),
 ]);
 
 const hp = {
@@ -111,6 +114,7 @@ const portfolioHref = localeHref(lang, '/#portfolio');
   </div>
 </section>
 
+<StatsBar client:load lang={lang} stats={stats} />
 <ClientLogos lang={lang} logos={logos} />
 <ServicesGrid client:load lang={lang} services={services} labels={labels.services} />
 <PortfolioGrid client:load lang={lang} items={portfolios} labels={labels.portfolio} />

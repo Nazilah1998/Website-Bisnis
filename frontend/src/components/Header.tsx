@@ -65,19 +65,14 @@ export default function Header({ locale, labels }: Props) {
         </nav>
 
         <div className="flex items-center gap-2 md:gap-4">
-          <div className="relative group hidden lg:block mr-2">
-            <button className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors">
-              <UserCircle className="w-4 h-4" /> Login
-            </button>
-            <div className="absolute right-0 top-full mt-2 w-48 bg-zinc-900 border border-white/10 rounded-xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all flex flex-col overflow-hidden pt-1">
-              <Href href="/client/login" locale={locale} className="px-4 py-3 text-sm text-zinc-300 hover:bg-white/5 hover:text-white transition-colors border-b border-white/5 flex items-center justify-between">
-                Client Portal
-              </Href>
-              <Href href="/admin/login" locale={locale} className="px-4 py-3 text-sm text-zinc-400 hover:bg-white/5 hover:text-white transition-colors">
-                Admin Dashboard
-              </Href>
-            </div>
-          </div>
+          <Href
+            href="/client/login"
+            locale={locale}
+            className="hidden lg:flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-all mr-2 border border-white/10 hover:border-white/20 shadow-sm"
+          >
+            <UserCircle className="w-4 h-4 text-blue-400" />
+            <span>{locale === "en" ? "Sign In / Register" : "Masuk & Daftar"}</span>
+          </Href>
           <LanguageSwitcher locale={locale} path="/" />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden" />}>
@@ -100,12 +95,19 @@ export default function Header({ locale, labels }: Props) {
                   </Href>
                 ))}
                 <div className="mt-6 pt-6 border-t border-white/10 flex flex-col gap-3">
-                  <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider px-4 mb-1">Login Area</span>
-                  <Href href="/client/login" locale={locale} onClick={() => setIsOpen(false)} className="flex items-center justify-between bg-zinc-800 text-white px-5 py-3.5 rounded-xl text-sm font-medium hover:bg-zinc-700 transition-colors">
-                    <span className="flex items-center gap-2"><UserCircle className="w-5 h-5" /> Client Portal</span>
-                  </Href>
-                  <Href href="/admin/login" locale={locale} onClick={() => setIsOpen(false)} className="flex items-center justify-between bg-zinc-900/50 border border-zinc-800 text-zinc-400 px-5 py-3.5 rounded-xl text-sm font-medium hover:bg-zinc-800 hover:text-white transition-colors">
-                    Admin Dashboard
+                  <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider px-4 mb-1">
+                    {locale === "en" ? "Account Area" : "Area Akun"}
+                  </span>
+                  <Href
+                    href="/client/login"
+                    locale={locale}
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-between bg-blue-600/90 hover:bg-blue-600 text-white px-5 py-3.5 rounded-xl text-sm font-medium transition-colors shadow-lg shadow-blue-500/20"
+                  >
+                    <span className="flex items-center gap-2">
+                      <UserCircle className="w-5 h-5" />
+                      {locale === "en" ? "Sign In / Register" : "Masuk & Daftar"}
+                    </span>
                   </Href>
                 </div>
               </div>

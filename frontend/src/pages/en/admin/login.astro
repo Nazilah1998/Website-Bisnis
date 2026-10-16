@@ -1,6 +1,4 @@
 ---
-import { getLangFromUrl } from '../../../i18n/utils';
-import AdminLoginPage from '../../../components/admin/AdminLoginPage.astro';
-const lang = getLangFromUrl(Astro.url);
+// Admin login page has been moved to secret URL /en/nazilah/auth
+return Astro.redirect('/en');
 ---
-<AdminLoginPage lang={lang} />

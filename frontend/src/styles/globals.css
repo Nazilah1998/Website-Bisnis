@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: "Geist", var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "Geist Mono", var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -99,4 +99,17 @@
 
 .glass-panel {
   @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl;
+}
+
+/* Enforce Plus Jakarta Sans for all text, headings, numbers, and inputs */
+html, body, input, button, textarea, select, code, pre, kbd, table, th, td {
+  font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif !important;
+}
+
+/* Cloudflare Turnstile full-width responsive rules (lancip / sharp) */
+iframe[src*="challenges.cloudflare.com"],
+div[style*="challenges.cloudflare.com"] {
+  width: 100% !important;
+  max-width: 100% !important;
+  border-radius: 0px !important;
 }

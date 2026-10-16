@@ -23,9 +23,9 @@ interface Props {
 }
 
 export default function PricingGrid({ lang, plans, labels }: Props) {
-  const bookingHref = localeHref(lang, "/#booking");
+  const baseBookingHref = localeHref(lang, "/");
   return (
-    <section id="pricing" className="py-24 bg-background">
+    <section id="pricing" className="py-24 bg-background scroll-mt-20">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{labels.title}</h2>
@@ -71,7 +71,13 @@ export default function PricingGrid({ lang, plans, labels }: Props) {
                   </ul>
                 </div>
                 <div className="mt-8 z-10 relative">
-                  <a href={bookingHref} className={buttonVariants({ variant: p.isPopular ? "default" : "outline", className: cn("w-full text-md h-12", p.isPopular ? "bg-white text-black hover:bg-gray-200" : "") })}>
+                  <a
+                    href={`${baseBookingHref}?plan=${encodeURIComponent(p.name ?? "")}&price=${encodeURIComponent(p.price ?? "")}#booking`}
+                    className={buttonVariants({
+                      variant: p.isPopular ? "default" : "outline",
+                      className: cn("w-full text-md h-12 transition-all", p.isPopular ? "bg-white text-black hover:bg-gray-200 shadow-lg shadow-blue-500/20" : "hover:border-blue-500/40")
+                    })}
+                  >
                     {labels.contact_us}
                   </a>
                 </div>

@@ -9,7 +9,7 @@ export function isAuthed(cookieValue: string | undefined): boolean {
 }
 
 export function adminLoginPath(lang: Locale): string {
-  return langRedir(lang, "/admin/login");
+  return langRedir(lang, "/nazilah/auth");
 }
 
 export function adminDashboardPath(lang: Locale): string {

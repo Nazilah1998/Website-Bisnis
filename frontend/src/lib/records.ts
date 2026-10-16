@@ -63,6 +63,15 @@ export interface FaqRecord {
   [key: string]: unknown;
 }
 
+export interface StatRecord {
+  id: string;
+  labelId?: string | null;
+  labelEn?: string | null;
+  value?: string | null;
+  orderIdx?: number | null;
+  [key: string]: unknown;
+}
+
 export interface PostRecord {
   id: string;
   slug?: string | null;

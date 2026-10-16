@@ -32,6 +32,11 @@ func main() {
 	// --- Auth ---
 	f.Post("/api/auth/admin/login", app.AdminLogin)
 	f.Post("/api/auth/client/login", app.ClientLogin)
+	f.Post("/api/auth/client/register", app.ClientRegister)
+	f.Get("/api/auth/turnstile/sitekey", app.TurnstileSiteKey)
+	f.Get("/api/auth/google/url", app.GoogleAuthURL)
+	f.Get("/api/auth/google/callback", app.GoogleCallback)
+	f.Get("/auth/callback", app.GoogleCallback)
 	f.Post("/api/auth/logout", app.Logout)
 	f.Post("/api/admin/logout", app.AdminLogout) // path lama, tanpa middleware
 

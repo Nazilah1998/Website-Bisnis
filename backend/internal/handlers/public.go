@@ -149,4 +149,3 @@ Jawab pertanyaan pengunjung dengan ramah, singkat, dan profesional dalam bahasa 
 }
 
 const maintenanceReply = "Maaf, sistem chatbot sedang dalam pemeliharaan. Silakan hubungi kami langsung via WhatsApp ya!"
-const chatbotErrorReply = "Maaf, terjadi kesalahan. Silakan hubungi kami langsung via WhatsApp ya! 😊"
