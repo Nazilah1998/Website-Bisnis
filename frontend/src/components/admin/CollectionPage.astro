@@ -31,7 +31,7 @@ if (token) {
     if (collection === 'projects' || collection === 'invoices' || collection === 'tickets') {
       const [clients, assets, projects] = await Promise.all([
         apiAdmin<{ id: string; name: string }[]>('/api/admin/clients', token),
-        apiAdmin<{ id: string; projectId: string }[]>('/api/admin/projectAssets', token),
+        apiAdmin<any[]>('/api/admin/projectAssets', token),
         apiAdmin<{ id: string; title: string; clientId: string }[]>('/api/admin/projects', token),
       ]);
       const clientMap = Object.fromEntries(clients.map((c) => [c.id, c.name]));
@@ -76,6 +76,6 @@ if (token) {
   }
 }
 ---
-<AdminShell lang title={`${meta.title} | ZilyaDigital`} description={meta.description}>
-  <CollectionManager client:load lang={lang} collection={collection} rows={rows} ctx={ctx} />
+<AdminShell locale={lang} title={`${meta.title} | ZilyaDigital`} description={meta.description}>
+  <CollectionManager client:load lang={lang} collection={collection} rows={rows} ctx={ctx as any} />
 </AdminShell>

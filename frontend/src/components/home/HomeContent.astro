@@ -24,7 +24,12 @@ import BlogPreview from '@/components/home/BlogPreview.astro';
 import ClientLogos from '@/components/home/ClientLogos.astro';
 import BookingForm from '@/components/home/BookingForm.tsx';
 import ChatbotWidget from '@/components/home/ChatbotWidget.tsx';
-import { buttonVariants } from '@/components/ui/button';
+import HeroVisualPreview from '@/components/home/HeroVisualPreview.tsx';
+import HeroActionButtons from '@/components/home/HeroActionButtons.tsx';
+import TechStackMarquee from '@/components/home/TechStackMarquee.tsx';
+import CoreWebVitalsScorecard from '@/components/home/CoreWebVitalsScorecard.tsx';
+import ProjectCostCalculator from '@/components/home/ProjectCostCalculator.tsx';
+import WebsiteAuditTool from '@/components/home/WebsiteAuditTool.tsx';
 
 interface Props {
   lang: Locale;
@@ -43,16 +48,30 @@ const [services, logos, portfolios, testimonials, plans, faqs, posts, stats] = a
   getPublic<StatRecord>('stats', { sort: 'orderIdx' }),
 ]);
 
+const isEn = lang === 'en';
+
 const hp = {
-  title: t(lang, 'HomePage.title'),
-  subtitle: t(lang, 'HomePage.subtitle'),
-  cta_booking: t(lang, 'HomePage.cta_booking'),
-  cta_portfolio: t(lang, 'HomePage.cta_portfolio'),
+  title: isEn
+    ? 'High-Performance Web Architecture & Enterprise Solutions'
+    : 'Transformasi Digital & Arsitektur Web Skala Enterprise',
+  subtitle: isEn
+    ? 'We engineer ultra-fast web platforms (Astro 7 + Go Fiber), native mobile PWAs, and custom AI agents built for relentless conversion and scale.'
+    : 'Kami membangun website berkecepatan kilat (Astro 7 + Go Fiber), aplikasi mobile PWA, dan solusi AI cerdas yang dirancang untuk melipatgandakan omzet bisnis Anda.',
 };
 
 const labels = {
-  services: { title: t(lang, 'Services.title'), subtitle: t(lang, 'Services.subtitle') },
-  portfolio: { title: t(lang, 'Portfolio.title'), subtitle: t(lang, 'Portfolio.subtitle') },
+  services: {
+    title: isEn ? 'Enterprise Engineering Services' : 'Layanan & Arsitektur Digital',
+    subtitle: isEn
+      ? 'Comprehensive full-stack engineering tailored for modern high-growth businesses.'
+      : 'Solusi digital komprehensif dari frontend kilat, backend Go berkinerja tinggi, hingga integrasi payment & AI.',
+  },
+  portfolio: {
+    title: isEn ? 'Featured Works & Case Studies' : 'Portofolio & Studi Kasus Teruji',
+    subtitle: isEn
+      ? 'Real results engineered for clients across retail, enterprise, and fintech industries.'
+      : 'Karya digital terbaik yang telah terbukti meningkatkan kecepatan, citra profesional, dan omzet klien kami.',
+  },
   pricing: {
     title: t(lang, 'Pricing.title'),
     subtitle: t(lang, 'Pricing.subtitle'),
@@ -62,20 +81,25 @@ const labels = {
     custom_quote: t(lang, 'Pricing.custom_quote'),
   },
   testimonials: {
-    title: lang === 'en' ? 'What Our Clients Say' : 'Apa Kata Klien Kami',
-    subtitle: lang === 'en' ? 'Real experiences from those who have trusted us with their digital projects.' : 'Pengalaman nyata dari mereka yang telah mempercayakan proyek digitalnya kepada kami.',
+    title: isEn ? 'What Our Clients Say' : 'Apa Kata Klien Kami',
+    subtitle: isEn
+      ? 'Real experiences from businesses that scaled with our digital architecture.'
+      : 'Pengalaman nyata dari mereka yang telah mempercayakan transformasi digitalnya kepada kami.',
   },
   faqs: {
-    title: lang === 'en' ? 'Frequently Asked Questions' : 'Pertanyaan yang Sering Diajukan',
-    subtitle: lang === 'en' ? 'Find answers to common questions about our services.' : 'Temukan jawaban atas pertanyaan umum terkait layanan kami.',
+    title: isEn ? 'Frequently Asked Questions' : 'Pertanyaan yang Sering Diajukan',
+    subtitle: isEn
+      ? 'Find answers to common questions about our development workflow and guarantees.'
+      : 'Temukan jawaban atas pertanyaan umum terkait proses pengerjaan, garansi, dan teknologi.',
   },
 };
 
 const bookingHref = localeHref(lang, '/#booking');
-const portfolioHref = localeHref(lang, '/#portfolio');
+const calculatorHref = localeHref(lang, '/#calculator');
 ---
 
-<section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+<!-- Hero Section with Double-Bezel Visual Preview -->
+<section class="relative min-h-[92vh] pt-32 pb-20 flex flex-col items-center justify-center overflow-hidden">
   <div class="absolute inset-0 z-0 bg-black">
     <FloatingLines
       client:load
@@ -88,39 +112,78 @@ const portfolioHref = localeHref(lang, '/#portfolio');
       parallax={true}
       linesGradient={['#3b82f6', '#6366f1', '#a855f7', '#06b6d4']}
     />
-    <div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[350px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[380px] bg-blue-500/10 rounded-full blur-[140px] pointer-events-none"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background pointer-events-none"></div>
   </div>
 
   <div class="container relative z-10 mx-auto px-4 text-center">
-    <div class="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm font-medium backdrop-blur-md mb-8">
-      <span class="flex h-2 w-2 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
-      Elevate Your Digital Presence
+    <!-- Eyebrow Pill -->
+    <div class="inline-flex items-center rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold tracking-[0.2em] text-blue-400 backdrop-blur-md mb-8 shadow-inner">
+      <span class="flex h-2 w-2 rounded-full bg-blue-400 mr-2.5 animate-pulse"></span>
+      ELEVATE YOUR DIGITAL PRESENCE
     </div>
-    <h1 class="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-4xl mx-auto">
+
+    <!-- Main Editorial Headline -->
+    <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 max-w-5xl mx-auto leading-[1.12]">
       <ShinyText client:load text={hp.title} />
     </h1>
-    <p class="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-[800px] mb-10 leading-relaxed mx-auto">
+
+    <!-- Subtitle -->
+    <p class="text-base sm:text-lg md:text-xl text-zinc-300 max-w-[820px] mb-10 leading-relaxed mx-auto font-normal">
       {hp.subtitle}
     </p>
-    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
-      <a href={bookingHref} class={buttonVariants({ size: "lg", className: "w-full sm:w-auto text-lg px-8 h-14 bg-white text-black hover:bg-gray-200" })}>
-        {hp.cta_booking}
-      </a>
-      <a href={portfolioHref} class={buttonVariants({ variant: "outline", size: "lg", className: "w-full sm:w-auto text-lg px-8 h-14 border-white/20 hover:bg-white/10" })}>
-        {hp.cta_portfolio}
-      </a>
-    </div>
+
+    <!-- CTAs with Button-in-Button & 15-Min Meeting Scheduler -->
+    <HeroActionButtons
+      client:load
+      bookingHref={bookingHref}
+      calculatorHref={calculatorHref}
+      lang={lang}
+    />
+
+    <!-- Interactive 3D Flagship Visual Mockup -->
+    <HeroVisualPreview client:load lang={lang} />
   </div>
 </section>
 
+<!-- Infinite Modern Tech Stack Marquee -->
+<TechStackMarquee client:load lang={lang} />
+
+<!-- Key Business Statistics -->
 <StatsBar client:load lang={lang} stats={stats} />
-<ClientLogos lang={lang} logos={logos} />
+
+<!-- Core Web Vitals 100/100 Live Scorecard -->
+<CoreWebVitalsScorecard client:load lang={lang} />
+
+<!-- Asymmetrical Bento Grid Services -->
 <ServicesGrid client:load lang={lang} services={services} labels={labels.services} />
+
+<!-- Interactive Project Cost Estimator -->
+<ProjectCostCalculator client:load lang={lang} />
+
+<!-- Proven Case Studies & Portfolio -->
 <PortfolioGrid client:load lang={lang} items={portfolios} labels={labels.portfolio} />
+
+<!-- Free Performance Website Audit Lead Magnet -->
+<WebsiteAuditTool client:load lang={lang} />
+
+<!-- Testimonials Carousel -->
 <TestimonialsCarousel client:load lang={lang} items={testimonials} labels={labels.testimonials} />
+
+<!-- Transparent Pricing Plans -->
 <PricingGrid client:load lang={lang} plans={plans} labels={labels.pricing} />
+
+<!-- Frequently Asked Questions -->
 <FaqsAccordion client:load lang={lang} items={faqs} labels={labels.faqs} />
+
+<!-- Blog & Knowledge Insights -->
 <BlogPreview lang={lang} posts={posts} />
+
+<!-- Trusted Client Logos -->
+<ClientLogos lang={lang} logos={logos} />
+
+<!-- Direct Consultation Booking Form -->
 <BookingForm client:load />
+
+<!-- Autonomous AI Floating Chatbot -->
 <ChatbotWidget client:load />

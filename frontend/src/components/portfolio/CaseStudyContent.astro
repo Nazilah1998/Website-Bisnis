@@ -35,7 +35,7 @@ function techListOf(value?: string | null): string[] {
 {p ? (
   <div class="min-h-screen bg-background">
     <div class="w-full h-80 md:h-[420px] overflow-hidden bg-zinc-800 relative">
-      {p.imageUrl ? <img src={p.imageUrl} alt={p.titleId ?? ''} class="w-full h-full object-cover opacity-70" crossorigin /> : null}
+      {p.imageUrl ? <img src={p.imageUrl} alt={p.titleId ?? ''} class="w-full h-full object-cover opacity-70" crossorigin="anonymous" /> : null}
       <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
       <div class="absolute bottom-0 left-0 right-0 container mx-auto px-4 pb-10">
         <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-400 text-xs font-medium mb-3 capitalize">{p.category}</span>
@@ -52,7 +52,7 @@ function techListOf(value?: string | null): string[] {
       {resultsOf(p.results).length > 0 && (
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {resultsOf(p.results).map((r, i) => (
-            <div key={i} class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 text-center shadow-sm">
+            <div class="bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 p-5 text-center shadow-sm">
               <div class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-blue-400 to-emerald-400 mb-1">{r.metric}</div>
               <div class="text-xs text-zinc-500">{r.label}</div>
             </div>
@@ -87,7 +87,7 @@ function techListOf(value?: string | null): string[] {
             <h3 class="text-sm font-bold text-zinc-900 dark:text-zinc-100 mb-3 uppercase tracking-wide">Teknologi</h3>
             <div class="flex flex-wrap gap-2">
               {techListOf(p.techStack).map((tech, i) => (
-                <span key={i} class="text-xs px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
                   <Lucide name="check-circle" class="w-3 h-3 inline mr-1 text-emerald-500" />{tech}
                 </span>
               ))}

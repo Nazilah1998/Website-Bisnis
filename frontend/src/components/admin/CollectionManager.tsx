@@ -11,7 +11,7 @@ import { Textarea } from "../ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import { DatePicker } from "../ui/date-picker";
-import { Table, TableHead, TableHeader, TableRow } from "../ui/table";
+import { Table, TableHead, TableHeader, TableRow, TableCell } from "../ui/table";
 import { SortableTableBody } from "../ui/SortableTableBody";
 import { SortableTableRow } from "../ui/SortableTableRow";
 import { PlusCircle, Edit, Trash2, RefreshCcw, CheckCircle, Eye, EyeOff, Settings, Briefcase, CreditCard, Star, HelpCircle, Image, BarChart3, BookOpen, Users, FolderOpen, FileText, LifeBuoy } from "lucide-react";
@@ -115,10 +115,11 @@ function CellContent({ col, row, meta, ctx }: { col: Column; row: Row; meta: Col
       );
     }
     case "badge": {
-      const key = col.badgeKey ? String(row[col.badgeKey] ?? "") : "";
-      const fallback = { label: String(row[col.badgeKey] ?? "-"), cls: "bg-zinc-100 text-zinc-700 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700" };
+      const bKey = col.badgeKey ?? "";
+      const key = bKey ? String(row[bKey] ?? "") : "";
+      const fallback = { label: String(bKey ? row[bKey] ?? "-" : "-"), cls: "bg-zinc-100 text-zinc-700 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700" };
       const entry = col.badgeMap?.[key] ?? (col.badgeMap ? fallback : undefined);
-      if (!entry) return <div className="text-sm text-zinc-500">{String(row[col.badgeKey] ?? "-")}</div>;
+      if (!entry) return <div className="text-sm text-zinc-500">{String(bKey ? row[bKey] ?? "-" : "-")}</div>;
       return <Badge variant="outline" className={entry.cls}>{entry.label}</Badge>;
     }
     default:
@@ -181,7 +182,7 @@ function FormField({ field, editItem, ctx }: { field: Field; editItem: Row | nul
             defaultValue={value == null ? "" : String(value)}
             required={field.required}
             rows={field.rows ?? 4}
-            placeholder={field.placeholder ?? ""}
+            placeholder={(field as any).placeholder ?? ""}
             className={`${field.mono ? "font-mono text-sm" : ""} resize-none`}
           />
         </div>

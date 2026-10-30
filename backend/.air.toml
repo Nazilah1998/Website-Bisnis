@@ -4,9 +4,8 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = ".\\tmp\\server.exe"
-  entrypoint = [".\\tmp\\server.exe"]
-  cmd = "go build -o ./tmp/server.exe ./cmd/server"
+  cmd = "go build -o ./tmp/server ./cmd/server"
+  entrypoint = ["./tmp/server"]
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "pocketbase"]
   exclude_file = []

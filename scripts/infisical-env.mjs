@@ -78,6 +78,7 @@ async function main() {
     const env = {
       ...process.env,
       ...secrets,
+      ASTRO_DEV_BACKGROUND: 'false',
     };
 
     const command = args[0];

@@ -46,7 +46,7 @@ function localeDate(value?: string | null) {
 {post ? (
   <div class="min-h-screen bg-background">
     <div class="w-full h-72 md:h-96 overflow-hidden bg-zinc-800 relative">
-      {post.coverImageUrl ? <img src={post.coverImageUrl} alt={post.titleId ?? ''} class="w-full h-full object-cover opacity-80" crossorigin /> : null}
+      {post.coverImageUrl ? <img src={post.coverImageUrl} alt={post.titleId ?? ''} class="w-full h-full object-cover opacity-80" crossorigin="anonymous" /> : null}
       <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
     </div>
 
@@ -71,13 +71,13 @@ function localeDate(value?: string | null) {
 
         <div
           class="prose prose-zinc dark:prose-invert max-w-none text-zinc-600 dark:text-zinc-400 leading-relaxed"
-          set:html={`<p class="mb-4 text-zinc-600 dark:text-zinc-400 leading-relaxed">${simpleMarkdown(lang === 'en' ? post.contentEn : post.contentId)}</p>`}
+          set:html={`<p class="mb-4 text-zinc-600 dark:text-zinc-400 leading-relaxed">${simpleMarkdown((lang === 'en' ? post.contentEn : post.contentId) ?? '')}</p>`}
         />
 
         {tagsOf(post.tags).length > 0 && (
           <div class="flex flex-wrap gap-2 mt-10 pt-6 border-t border-zinc-200 dark:border-zinc-800">
-            {tagsOf(post.tags).map((tag, i) => (
-              <span key={i} class="text-xs px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+            {tagsOf(post.tags).map((tag) => (
+              <span class="text-xs px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
                 #{tag}
               </span>
             ))}

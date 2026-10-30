@@ -1,5 +1,3 @@
-import React from 'react';
-
 export function ShinyText({ text, className = '' }: { text: string, className?: string }) {
   return (
     <span

@@ -388,9 +388,9 @@ export const META: Record<string, CollectionMeta> = {
     ],
     extraActions: (row, ctx) => (
       <ProjectAssetsDialog
-        projectId={row.id}
-        projectTitle={row.title}
-        existingAssets={(ctx.assets as Record<string, unknown>[])?.filter((a) => a.projectId === row.id) ?? []}
+        projectId={String(row.id ?? "")}
+        projectTitle={String(row.title ?? "")}
+        existingAssets={(ctx.assets as any[])?.filter((a) => a.projectId === row.id) ?? []}
       />
     ),
   },
